@@ -1,0 +1,5 @@
+npm install firebase
+npm install express body-parser cors firebase-admin
+npm install @babel/core @babel/node @babel/cli @babel/preset-env 
+npm install firebase-admin          
+npm install express firebase

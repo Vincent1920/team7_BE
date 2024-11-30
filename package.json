@@ -1,0 +1,29 @@
+{
+  "type": "module",
+  "dependencies": {
+    "@faker-js/faker": "^9.2.0",
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "faker": "^6.6.6",
+    "firebase": "^11.0.2",
+    "firebase-admin": "^13.0.1"
+  },
+  "mock_data": {
+    "device_id": {
+      "-uniqueId1": {
+        "temperature": 25.5,
+        "timestamp": 1697818567000
+      },
+      "-uniqueId2": {
+        "temperature": 27.8,
+        "timestamp": 1697818578000
+      }
+    },
+    "mock_entry": {
+      "temperature": 25.5,
+      "turbidity": 1.2,
+      "timestamp": "2024-11-22T10:00:00Z"
+    }
+  }
+}
