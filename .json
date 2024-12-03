@@ -1,12 +1,11 @@
 {
-    "device_id": {
-        "-uniqueId1": {
-            "temperature": 25.5,
-            "timestamp": 1697818567000
-        },
-        "-uniqueId2": {
-            "temperature": 27.8,
-            "timestamp": 1697818578000
+    "tahun": {
+      "bulan": {
+        "hari": {
+          "suhu_new": value,
+          "PH_AIR": value
         }
+      }
     }
-}
+  }
+  

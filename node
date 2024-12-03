@@ -3,3 +3,17 @@ npm install express body-parser cors firebase-admin
 npm install @babel/core @babel/node @babel/cli @babel/preset-env 
 npm install firebase-admin          
 npm install express firebase
+
+
+# github
+git init
+git add README.md
+git commit -m "data palsu" 
+git branch -M main
+git remote add origin https://github.com/Vincent1920/team7_BE.git
+git push -u origin main
+
+git status
+git add .
+git commit -m "mambuat data palsu"
+git push
