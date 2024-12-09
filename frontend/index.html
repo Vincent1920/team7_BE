@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aquarium Dashboard</title>
+  <link rel="stylesheet" href="/assets/css/testingcss.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Pacifico&display=swap"
+    rel="stylesheet" />
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+  <!-- <script src="https://team7-e5280-default-rtdb.firebaseio.com"></script> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js" integrity="sha512-L0Shl7nXXzIlBSUUPpxrokqq4ojqgZFQczTYlGjzONGTDAcLremjwaWv5A+EDLnxhQzY5xUZPWLOLqYRkY0Cbw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+</head>
+
+<body>
+  <!-- Logo -->
+  <center>
+    <div class="logo">
+      <h1>AKUARIUM-MU</h1>
+    </div>
+    <div class="ikan">
+      <img src="/assets/images/ikan.png" alt="ikan" />
+    </div>
+    <!-- Real-time Monitoring Header -->
+    <div class="header">
+      <h2>REAL TIME MONITORING</h2>
+    </div>
+  </center>
+  <!-- Dashboard -->
+  <div class="dashboard">
+    <!-- Container Status -->
+    <div class="container status">
+      <h2>Status</h2>
+      <div class="status-icon">
+        <img src="/assets/images/bell-icon.png" alt="Status Icon" />
+      </div>
+      <p class="status-text" id="deskripsi-suhu">Suhu Air Normal</p>
+      <p class="status-text" id= "deskripsi-kekeruhan">Kekeruhan Air Normal</p>
+    </div>
+
+    <!-- Container Suhu -->
+    <div class="container suhu">
+      <h2>Suhu Saat Ini</h2>
+      <div class="termometer-icon">
+        <img src="/assets/images/termometer.png" alt="termometer" />
+      </div>
+      <p id="data_suhu"></p>
+      <p>Optimal: 24-28°C</p>
+    </div>
+
+    <!-- Container Kekeruhan -->
+    <div class="container kekeruhan">
+      <h2>Kekeruhan Air</h2>
+      <div class="air-icon">
+        <img src="/assets/images/air.png" alt="air" />
+      </div>
+      <p id="data_kekeruhan"></p>
+      <p>Batas Aman: &lt; 10 Ppm</p>
+    </div>
+
+    <!-- Container Grafik -->
+    <div class="container grafik">
+      <h2>Grafik Air</h2>
+      <select name="" id="parameter-select" onchange="updateChart()">
+        <option id="suhu_air" value="temperature">Suhu Air (°C)</option>
+        <option id="kekeruhan_air" value="turbidity">Kekeruhan Air</option>
+      </select>
+      <canvas id="chart" width="300"></canvas>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/frontend/js/BE.js"></script>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+      import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyDqe5n_h7Aep6ThjhwTy_6GtyzB2vyPfiU",
+        authDomain: "team7-e5280.firebaseapp.com",
+        databaseURL: "https://team7-e5280-default-rtdb.firebaseio.com",
+        projectId: "team7-e5280",
+        storageBucket: "team7-e5280.appspot.com",
+        messagingSenderId: "92957058272",
+        appId: "1:92957058272:web:838178bdf7a20672d95c85",
+        measurementId: "G-V3XZ4LBLSN",
+      };
+
+    // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const database = getDatabase(app);
+
+      // Listen for real-time updates
+      const suhuRef = ref(database, 'akuarium-mu/temperature/realtime_temperature');
+      const data_suhu = document.getElementById('data_suhu');
+      const deskripsi_suhu = document.getElementById('deskripsi-suhu');
+
+      onValue(suhuRef, (snapshot) => {
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          // Tampilkan data suhu di dalam elemen dengan id 'data_suhu'
+          data_suhu.innerHTML = `${data.toFixed(2)} °C`;
+          data_suhu.style.color = 'black';
+          
+          if(data < 24){
+            deskripsi_suhu.textContent = 'Suhu Air Rendah';
+            deskripsi_suhu.style.color = '#02428b';
+            data_suhu.style.color = '#02428b';
+          }else if(data > 28){
+            deskripsi_suhu.textContent = 'Suhu Air Tinggi';
+            deskripsi_suhu.style.color = '#dc1515';
+            data_suhu.style.color = '#dc1515';
+          }else{
+            deskripsi_suhu.textContent = 'Suhu Air Normal'
+            deskripsi_suhu.style.color = 'black';
+          }
+
+        } else {
+          data_suhu.innerHTML = 'No data available for temperature';
+        }
+      });
+
+      const kekeruhanRef = ref(database, 'akuarium-mu/turbidity/realtime_turbidity');
+      const data_kekeruhan = document.getElementById('data_kekeruhan');
+      const deskripsi_kekeruhan = document.getElementById('deskripsi-kekeruhan');
+
+      onValue(kekeruhanRef, (snapshot) => {
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          data_kekeruhan.innerHTML = `${data.toFixed(2)} Ppm`;
+          data_kekeruhan.style.color = 'black';
+          
+          if(data > 10 ){
+            deskripsi_kekeruhan.textContent = 'Kekeruhan Air Tinggi';
+            deskripsi_kekeruhan.style.color = '#dc1515';
+            data_kekeruhan.style.color = '#dc1515';
+          }else{
+            deskripsi_kekeruhan.textContent = 'Kekeruhan Air Normal';
+            deskripsi_kekeruhan.style.color = 'black';
+          }
+        
+          } else {
+          data_kekeruhan.innerHTML = 'No data available for turbidity';
+        }
+      });
+    </script>
+</body>
+
+</html>

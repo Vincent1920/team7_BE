@@ -1,0 +1,33 @@
+npm install node
+npm install firebase
+npm install express body-parser cors firebase-admin
+npm install @babel/core @babel/node @babel/cli @babel/preset-env 
+npm install firebase-admin          
+npm install express firebase
+npm install express csv-parser
+npm install csv-parser
+npm install cors
+// json
+{
+  "name": "team7",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.25.9",
+    "@babel/core": "^7.26.0",
+    "@babel/node": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@faker-js/faker": "^9.2.0",
+    "axios": "^1.7.9",
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "firebase": "^11.0.2",
+    "firebase-admin": "^13.0.1"
+  }
+}
